@@ -22,7 +22,7 @@ const handler = NextAuth({
 
       return session;
     },
-    async signIn({ profile }) {
+    async signIn({ account, profile, user, credentials }) {
       try {
       // serverless -> Lamba -> dynamodb
         await connectToDB();
@@ -33,6 +33,7 @@ const handler = NextAuth({
         });
         // if not, create a new user and add it to the DB
         if (!userExists) {
+          console.log(profile)
           await User.create({
             email: profile.email,
             username: profile.name.replace(" ", "").toLowerCase(),
